@@ -152,13 +152,7 @@
       if (r.top < window.innerHeight * 0.92 && r.bottom > 0) showEl(n);
     });
     var dock = narrow ? null : document.querySelector('[data-dock]');
-    if (dock) {
-      var c = window.scrollY > 150;
-      dock.style.right = c ? '50%' : '28px';
-      dock.style.left = 'auto';
-      dock.style.transform = c ? 'translateX(50%)' : 'translateX(0)';
-      dock.style.background = c ? 'rgba(250,246,240,.68)' : 'rgba(250,246,240,.5)';
-    }
+    if (dock) dock.classList.toggle('nav--centered', window.scrollY > 150);
     var mark = document.querySelector('[data-mark]');
     if (mark) {
       var on = window.scrollY > 150;
@@ -181,41 +175,18 @@
     scrollRaf = requestAnimationFrame(function () { scrollRaf = 0; onScroll(); });
   }
 
-  // ---------- responsive nav dock layout ----------
+  // ---------- responsive state ----------
+  // Sizing, spacing and dock placement now live in the CSS responsive layer.
+  // This only tracks whether the dock is in its bottom-docked mode, so the
+  // scroll handler knows to leave it alone.
+  var mqNarrow = window.matchMedia('(max-width: 899px)');
+
   function layout() {
-    var w = window.innerWidth;
+    narrow = mqNarrow.matches;
     var dock = document.querySelector('[data-dock]');
     if (!dock) return;
-    narrow = w < 900;
-    var tight = w < 560;
-    dock.style.maxWidth = 'calc(100vw - 20px)';
-    dock.style.flexWrap = 'nowrap';
-    dock.style.padding = tight ? '5px' : '7px';
-    dock.querySelectorAll('a').forEach(function (a) {
-      if (a.hasAttribute('data-mark')) return;
-      a.style.padding = tight ? '11px 11px' : (w < 760 ? '12px 13px' : '14px 17px');
-      a.style.fontSize = tight ? '9.5px' : (w < 760 ? '10.5px' : '11px');
-      a.style.letterSpacing = tight ? '.06em' : '.11em';
-      a.style.whiteSpace = 'nowrap';
-    });
-    var quote = dock.querySelector('[data-magnet]');
-    if (quote) quote.style.display = w < 430 ? 'none' : '';
-    if (narrow) {
-      dock.style.top = 'auto';
-      dock.style.bottom = '14px';
-      dock.style.right = '50%';
-      dock.style.left = 'auto';
-      dock.style.transform = 'translateX(50%)';
-      dock.style.background = 'rgba(250,246,240,.86)';
-      document.body.style.paddingBottom = '78px';
-    } else {
-      dock.style.top = '22px';
-      dock.style.bottom = 'auto';
-      document.body.style.paddingBottom = '';
-      onScrollThrottled();
-    }
-    var ba = document.querySelector('[data-ba]');
-    if (ba) ba.style.minHeight = tight ? '210px' : '';
+    if (narrow) dock.classList.remove('nav--centered');
+    else onScrollThrottled();
   }
 
   // ---------- interaction handlers (bound via data-on-*) ----------
