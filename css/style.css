@@ -1456,8 +1456,29 @@ img { max-width:100%; }
 
   /* page gutters: 28px is too much of a 360px screen */
   .top__1, .shared__3, .about__1, .contact__1, .footer__2 {
-    padding-left:20px;
-    padding-right:20px;
+    padding-left:16px;
+    padding-right:16px;
+  }
+
+  /* ---- grid tracks that refuse to shrink ----
+     repeat(auto-fit, minmax(min(330px,100%), 1fr)) is meant to collapse, but
+     the track minimum resolves to the px value, not 100%, so these three
+     columns stay wider than their container and push out to the right.
+     Forcing a single explicit column removes the minimum entirely. */
+  .top__1 { grid-template-columns:1fr; }
+  .about__1 { grid-template-columns:1fr; }
+  .contact__2 {
+    grid-template-columns:1fr;
+    padding:20px;
+    gap:28px;
+  }
+
+  /* form controls: never let intrinsic size drive the column */
+  .contact__6, .contact__7 { min-width:0; }
+  .contact__9, .contact__10 {
+    width:100%;
+    min-width:0;
+    max-width:100%;
   }
 
   /* ---- comparison slider: mobile treatment ---- */
@@ -1509,4 +1530,10 @@ img { max-width:100%; }
 @media (max-width:429px) {
   .nav__5 { display:none; }
   .nav__4 { padding:10px 8px; font-size:9px; letter-spacing:.02em; }
+
+  .cf-turnstile {
+    transform:scale(.82);
+    transform-origin:left top;
+    height:54px;
+  }
 }
