@@ -341,6 +341,29 @@ input,textarea,button{font-family:inherit}
   letter-spacing:.1em;
   text-transform:uppercase;
 }
+.top__26 {
+  position:relative;
+  display:inline-block;
+  color:#8A2A20;
+}
+.top__27 {
+  position:absolute;
+  inset:0;
+  color:#B0332B;
+}
+.top__28 {
+  position:absolute;
+  inset:0;
+  color:#FF9B82;
+  background:radial-gradient(circle 55px at var(--gx,-999px) var(--gy,-999px),rgba(255,255,255,.95),rgba(255,155,130,.65) 45%,transparent 72%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 6px rgba(255,155,130,.7));
+}
+.top__29 {
+  visibility:hidden;
+}
 
 /* -- shared -- */
 .shared__1 {
