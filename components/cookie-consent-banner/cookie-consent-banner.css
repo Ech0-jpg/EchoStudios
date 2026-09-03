@@ -1,0 +1,166 @@
+/* Cookie Consent Banner — reusable, brand-agnostic.
+   Host sites theme it by setting these custom properties (on :root or any
+   ancestor) before this stylesheet is read; each has an EchoStudios-flavored
+   fallback so it also looks correct with zero configuration.
+     --ccb-accent        primary/accept button + "Learn more" link color
+     --ccb-radius        corner radius for the banner and buttons
+     --ccb-font          font-family for all banner text
+     --ccb-bg            banner surface color
+     --ccb-text          banner body text color
+     --ccb-border        banner border color
+*/
+
+.ccb-banner {
+  --ccb-accent: #B0332B;
+  --ccb-radius: 16px;
+  --ccb-font: Inter, system-ui, sans-serif;
+  --ccb-bg: #FFFDFA;
+  --ccb-text: #2E2A26;
+  --ccb-border: rgba(46,42,38,.14);
+  box-sizing:border-box;
+  font-family:var(--ccb-font);
+  color:var(--ccb-text);
+  background:var(--ccb-bg);
+  border:1px solid var(--ccb-border);
+  position:fixed;
+  z-index:2147483000;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:16px;
+  transition:transform .5s cubic-bezier(.22,1.32,.36,1), opacity .4s ease;
+}
+.ccb-banner * {
+  box-sizing:border-box;
+}
+.ccb-banner[hidden] {
+  display:none;
+}
+
+/* -- variant: full-width bar -- */
+.ccb-banner--bar {
+  left:0;
+  right:0;
+  bottom:0;
+  border-left:none;
+  border-right:none;
+  border-bottom:none;
+  border-radius:0;
+  box-shadow:0 -18px 40px -26px rgba(0,0,0,.35);
+  padding:18px clamp(18px,2.4vw,26px);
+}
+.ccb-banner--bar.ccb-is-hiding {
+  transform:translateY(110%);
+  opacity:0;
+}
+
+/* -- variant: bottom-corner card -- */
+.ccb-banner--card {
+  left:20px;
+  bottom:20px;
+  width:min(360px, calc(100vw - 40px));
+  border-radius:var(--ccb-radius);
+  box-shadow:0 26px 50px -24px rgba(0,0,0,.4);
+  padding:22px;
+  display:grid;
+  gap:16px;
+}
+.ccb-banner--card.ccb-is-hiding {
+  transform:translateY(130%);
+  opacity:0;
+}
+
+.ccb-copy {
+  flex:1 1 280px;
+  min-width:220px;
+}
+.ccb-message {
+  margin:0 0 6px;
+  font-size:14.5px;
+  line-height:1.55;
+}
+.ccb-learn {
+  display:inline-block;
+  font-size:11.5px;
+  letter-spacing:.06em;
+  color:var(--ccb-accent);
+  text-decoration:none;
+  border-bottom:1px solid currentColor;
+  padding-bottom:1px;
+}
+.ccb-learn:hover,
+.ccb-learn:focus-visible {
+  opacity:.8;
+}
+
+.ccb-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  flex:none;
+}
+.ccb-banner--card .ccb-actions {
+  flex:none;
+  width:100%;
+}
+.ccb-banner--card .ccb-btn {
+  flex:1 1 auto;
+}
+
+.ccb-btn {
+  cursor:pointer;
+  font-family:inherit;
+  font-size:14px;
+  font-weight:600;
+  padding:13px 22px;
+  border-radius:var(--ccb-radius);
+  transition:background .3s ease, border-color .3s ease, box-shadow .35s ease, border-radius .35s cubic-bezier(.34,1.42,.4,1);
+}
+.ccb-btn--decline {
+  background:transparent;
+  color:var(--ccb-text);
+  border:0.8px solid rgba(46,42,38,.22);
+}
+.ccb-btn--decline:hover,
+.ccb-btn--decline:focus-visible {
+  background:rgba(46,42,38,.06);
+  border-color:rgba(46,42,38,.4);
+  border-radius:calc(var(--ccb-radius) - 7px);
+}
+.ccb-btn--accept {
+  background:var(--ccb-accent);
+  color:#FFFDFA;
+  border:none;
+}
+.ccb-btn--accept:hover,
+.ccb-btn--accept:focus-visible {
+  box-shadow:0 16px 30px -14px rgba(0,0,0,.45);
+  border-radius:calc(var(--ccb-radius) - 7px);
+}
+.ccb-btn:focus-visible {
+  outline:2px solid var(--ccb-accent);
+  outline-offset:2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ccb-banner {
+    transition:opacity .2s linear;
+  }
+  .ccb-banner--bar.ccb-is-hiding,
+  .ccb-banner--card.ccb-is-hiding {
+    transform:none;
+  }
+}
+
+@media (max-width:480px) {
+  .ccb-banner--bar {
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .ccb-banner--bar .ccb-actions {
+    width:100%;
+  }
+  .ccb-banner--bar .ccb-btn {
+    flex:1 1 auto;
+  }
+}

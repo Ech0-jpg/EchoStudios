@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cookie Consent Banner — Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Inter:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cookie-consent-banner.css">
+<style>
+  :root {
+    --ccb-accent: #B0332B;
+    --ccb-radius: 16px;
+    --ccb-font: Inter, system-ui, sans-serif;
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0;
+    background:#FAF6F0;
+    color:#2E2A26;
+    font-family:Inter,system-ui,sans-serif;
+  }
+  .wrap { max-width:1080px; margin:0 auto; padding:clamp(34px,5vw,64px) 28px clamp(60px,7vw,96px); }
+  header { margin-bottom:clamp(34px,4.5vw,56px); }
+  .eyebrow { margin:0 0 14px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:#8B8073; }
+  h1 { margin:0 0 18px; font-family:'Archivo Black',sans-serif; font-size:clamp(30px,4.2vw,54px); line-height:1; letter-spacing:-.02em; text-transform:uppercase; max-width:22ch; }
+  .lede { margin:0; max-width:58ch; font-size:16px; line-height:1.7; color:#6E6459; }
+  .swatches { display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-bottom:22px; }
+  .swatch-label { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#8B8073; }
+  .swatch { cursor:pointer; width:30px; height:30px; border-radius:999px; border:2px solid transparent; }
+  .swatch[data-active="1"] { border-color:#2E2A26; }
+  .reset-btn { cursor:pointer; margin-left:auto; background:transparent; color:#2E2A26; border:0.8px solid rgba(46,42,38,.22); border-radius:16px; padding:11px 18px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; }
+  .reset-btn:hover { background:#F2EBDF; }
+  .panels { display:grid; gap:clamp(22px,3vw,34px); }
+  .panel-head { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:12px; }
+  .panel-label { margin:0; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#8B8073; }
+  .status { margin:0; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8B8073; }
+  .stage { position:relative; height:clamp(300px,34vw,380px); border-radius:20px; overflow:hidden; border:1px solid rgba(46,42,38,.14); background:#F4F1EC; }
+  .stage-content { padding:22px 26px; display:grid; gap:16px; }
+  .bar1 { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .bar1 .a { width:104px; height:12px; border-radius:3px; background:rgba(46,42,38,.28); }
+  .bar1 .b { display:flex; gap:14px; }
+  .bar1 .b span { display:block; width:52px; height:8px; border-radius:3px; background:rgba(46,42,38,.14); }
+  .block { height:96px; border-radius:12px; background:repeating-linear-gradient(135deg,#E7E2D9 0 9px,#EFEBE3 9px 18px); }
+  .lines { display:grid; gap:9px; max-width:58%; }
+  .lines div { height:9px; border-radius:3px; background:rgba(46,42,38,.16); }
+  .lines div:last-child { width:62%; }
+  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  .grid3 div { height:110px; border-radius:12px; background:repeating-linear-gradient(135deg,#E7E2D9 0 9px,#EFEBE3 9px 18px); }
+  .footnotes { margin-top:clamp(30px,4vw,48px); border-top:1px solid rgba(46,42,38,.12); padding-top:24px; display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:clamp(20px,3vw,34px); }
+  .footnotes p:first-child { margin:0 0 10px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ccb-accent); }
+  .footnotes p:last-child { margin:0; font-size:14.5px; line-height:1.65; color:#5E564C; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Deliverable — Privacy Policy Setup add-on</p>
+    <h1>Cookie consent banner</h1>
+    <p class="lede">A reusable component for client sites that run cookie-based tools like Google Analytics or ad pixels. Two placements, one button pair, one accent color to swap. EchoStudios' own site doesn't ship it — Vercel Analytics is cookieless.</p>
+  </header>
+
+  <div class="swatches">
+    <span class="swatch-label">Accent</span>
+    <button class="swatch" data-swatch="#B0332B" data-active="1" style="background:#B0332B" aria-label="Brand red accent"></button>
+    <button class="swatch" data-swatch="#2E2A26" style="background:#2E2A26" aria-label="Charcoal accent"></button>
+    <button class="swatch" data-swatch="#2F5D50" style="background:#2F5D50" aria-label="Green accent"></button>
+    <button class="swatch" data-swatch="#2B4A7C" style="background:#2B4A7C" aria-label="Blue accent"></button>
+    <button class="reset-btn" id="resetBtn" type="button">Reset both</button>
+  </div>
+
+  <div class="panels">
+    <div>
+      <div class="panel-head">
+        <p class="panel-label">Variant A — full-width bar</p>
+        <p class="status" id="statusBar">Awaiting choice</p>
+      </div>
+      <div class="stage" id="stageBar">
+        <div class="stage-content" aria-hidden="true">
+          <div class="bar1"><div class="a"></div><div class="b"><span></span><span></span><span></span></div></div>
+          <div class="block"></div>
+          <div class="lines"><div></div><div></div><div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="panel-head">
+        <p class="panel-label">Variant B — bottom-corner card</p>
+        <p class="status" id="statusCard">Awaiting choice</p>
+      </div>
+      <div class="stage" id="stageCard">
+        <div class="stage-content" aria-hidden="true">
+          <div class="bar1"><div class="a"></div><div class="b"><span></span><span></span><span></span></div></div>
+          <div class="grid3"><div></div><div></div><div></div></div>
+          <div class="lines" style="max-width:44%"><div></div><div style="width:70%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footnotes">
+    <div>
+      <p>Behaviour</p>
+      <p>Shows on first visit, stores the choice, and stays hidden on return. Declining leaves non-essential scripts unloaded.</p>
+    </div>
+    <div>
+      <p>Brandable</p>
+      <p>Accent color, radius, and typeface inherit from the client site via CSS variables. Nothing here is EchoStudios-specific.</p>
+    </div>
+    <div>
+      <p>Links out</p>
+      <p>"Learn more" points at that site's own Privacy Policy page, written as part of the same add-on.</p>
+    </div>
+  </div>
+</div>
+
+<script src="cookie-consent-banner.js"></script>
+<script>
+  (function () {
+    var accent = '#B0332B';
+
+    function applyAccent() {
+      document.documentElement.style.setProperty('--ccb-accent', accent);
+      document.querySelectorAll('.swatch').forEach(function (s) {
+        s.dataset.active = s.dataset.swatch === accent ? '1' : '0';
+      });
+    }
+
+    document.querySelectorAll('.swatch').forEach(function (s) {
+      s.addEventListener('click', function () {
+        accent = s.dataset.swatch;
+        applyAccent();
+      });
+    });
+
+    function showIn(stageId, variant, statusId, storageKey) {
+      var stage = document.getElementById(stageId);
+      var status = document.getElementById(statusId);
+      var existingBanner = stage.querySelector('.ccb-banner');
+      if (existingBanner) existingBanner.remove();
+
+      EchoCookieConsent.reset(storageKey);
+      status.textContent = 'Awaiting choice';
+      status.style.color = '#8B8073';
+
+      // init() appends to document.body by design (so it behaves the same
+      // way on a real client site); for this side-by-side demo we move the
+      // freshly-created banner into its own preview stage right after.
+      EchoCookieConsent.init({
+        variant: variant,
+        learnMoreHref: '../../privacy/',
+        storageKey: storageKey,
+        onAccept: function () { status.textContent = 'Accepted — consent stored'; status.style.color = accent; },
+        onDecline: function () { status.textContent = 'Declined — no cookies set'; status.style.color = '#8B8073'; }
+      });
+      var live = document.querySelector('.ccb-banner--' + variant);
+      if (live) {
+        live.style.position = 'absolute';
+        stage.appendChild(live);
+      }
+    }
+
+    document.getElementById('resetBtn').addEventListener('click', function () {
+      showIn('stageBar', 'bar', 'statusBar', 'ccb-demo-bar');
+      showIn('stageCard', 'card', 'statusCard', 'ccb-demo-card');
+    });
+
+    applyAccent();
+    showIn('stageBar', 'bar', 'statusBar', 'ccb-demo-bar');
+    showIn('stageCard', 'card', 'statusCard', 'ccb-demo-card');
+  })();
+</script>
+</body>
+</html>

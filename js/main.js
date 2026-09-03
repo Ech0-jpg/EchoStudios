@@ -22,8 +22,11 @@
       n.style.opacity = '1';
       n.style.transform = 'none';
       n.querySelectorAll('[data-count]').forEach(countUp);
+      if (tierApply) tierApply();
     }, delay);
   }
+
+  var tierApply = null;
 
   function countUp(el) {
     if (el.dataset.done) return;
@@ -105,6 +108,99 @@
         el.style.transform = 'translate(0,0)';
       });
     });
+  }
+
+  // ---------- footer "might be yours" cursor glow ----------
+  function wireFooterGlow() {
+    if (rm) return;
+    var glow = document.querySelector('[data-ftr-glow]');
+    var shine = document.querySelector('[data-ftr-glow-shine]');
+    if (!glow || !shine) return;
+    document.addEventListener('pointermove', function (e) {
+      var r = glow.getBoundingClientRect();
+      glow.style.setProperty('--gx', (e.clientX - r.left) + 'px');
+      glow.style.setProperty('--gy', (e.clientY - r.top) + 'px');
+      var dx = e.clientX - (r.left + r.width / 2);
+      var dy = e.clientY - (r.top + r.height / 2);
+      shine.style.opacity = String(Math.max(0.15, Math.min(1, 1 - Math.sqrt(dx * dx + dy * dy) / 320)));
+    }, { passive: true });
+  }
+
+  // ---------- quote page: tier tabs ----------
+  function wireTierTabs() {
+    var tablist = document.querySelector('[data-tablist]');
+    if (!tablist) return;
+    var tier = tablist.dataset.default || 'standard';
+    var thumb = tablist.querySelector('[data-thumb]');
+    var thumbState = null;
+    var smearT = 0;
+
+    function applyTier() {
+      var active = null;
+      document.querySelectorAll('[data-tier-btn]').forEach(function (b) {
+        var on = b.dataset.tierBtn === tier;
+        if (on) active = b;
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+        b.style.color = on ? '#FAF6F0' : '#6E6459';
+      });
+      if (thumb && active) {
+        if (!thumb.dataset.placed) {
+          thumb.dataset.placed = '1';
+          thumb.style.transition = 'none';
+          thumb.style.width = active.offsetWidth + 'px';
+          thumb.style.transform = 'translateX(' + (active.offsetLeft - 5) + 'px)';
+          requestAnimationFrame(function () {
+            thumb.style.transition = 'transform .5s cubic-bezier(.34,1.34,.4,1),width .5s cubic-bezier(.34,1.34,.4,1)';
+          });
+        } else {
+          var nl = active.offsetLeft, nw = active.offsetWidth;
+          var prev = thumbState || { left: nl, w: nw };
+          var spanL = Math.min(prev.left, nl);
+          var spanR = Math.max(prev.left + prev.w, nl + nw);
+          clearTimeout(smearT);
+          if (spanR - spanL > nw + 2 && !rm) {
+            thumb.style.transition = 'transform .19s cubic-bezier(.4,0,.2,1),width .19s cubic-bezier(.4,0,.2,1)';
+            thumb.style.width = (spanR - spanL) + 'px';
+            thumb.style.transform = 'translateX(' + (spanL - 5) + 'px)';
+            smearT = setTimeout(function () {
+              thumb.style.transition = 'transform .46s cubic-bezier(.22,1.28,.36,1),width .46s cubic-bezier(.22,1.28,.36,1)';
+              thumb.style.width = nw + 'px';
+              thumb.style.transform = 'translateX(' + (nl - 5) + 'px)';
+            }, 185);
+          } else {
+            thumb.style.width = nw + 'px';
+            thumb.style.transform = 'translateX(' + (nl - 5) + 'px)';
+          }
+        }
+        thumbState = { left: active.offsetLeft, w: active.offsetWidth };
+      }
+      document.querySelectorAll('[data-tier-card]').forEach(function (c) {
+        var on = c.dataset.tierCard === tier;
+        c.style.opacity = c.dataset.shown ? (on ? '1' : '.58') : c.style.opacity;
+        c.style.boxShadow = on ? '0 28px 52px -28px rgba(46,42,38,.5)' : 'none';
+        if (c.dataset.tierCard !== 'standard') c.style.borderColor = on ? 'rgba(176,51,43,.45)' : 'rgba(46,42,38,.12)';
+      });
+      document.querySelectorAll('[data-cell]').forEach(function (c) {
+        c.style.opacity = c.dataset.cell === tier ? '1' : '.32';
+      });
+      document.querySelectorAll('[data-col-head]').forEach(function (h) {
+        h.style.color = h.dataset.colHead === tier ? '#2E2A26' : '#8B8073';
+      });
+      document.querySelectorAll('[data-rush]').forEach(function (r) {
+        var on = r.dataset.rush === tier;
+        r.style.borderColor = on ? 'rgba(176,51,43,.45)' : 'rgba(46,42,38,.12)';
+        r.style.opacity = r.dataset.shown ? (on ? '1' : '.6') : r.style.opacity;
+      });
+    }
+
+    handlers.pickTier = function (e) {
+      tier = e.currentTarget.dataset.tierBtn;
+      applyTier();
+    };
+
+    window.addEventListener('resize', function () { applyTier(); }, { passive: true });
+    tierApply = applyTier;
+    applyTier();
   }
 
   // ---------- process progress bar ----------
@@ -384,10 +480,12 @@
   var grain = document.querySelector('[data-grain]');
   if (grain) grain.style.opacity = String(GRAIN_OPACITY);
 
+  wireTierTabs();
   wireReveal();
   wireTilt();
   wireMagnet();
   wireActions();
+  wireFooterGlow();
 
   window.addEventListener('scroll', onScrollThrottled, { passive: true });
   window.addEventListener('resize', function () { onScrollThrottled(); layout(); }, { passive: true });
