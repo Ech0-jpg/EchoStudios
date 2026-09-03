@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Inter:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="../assets/logo/favicon-32.svg">
 <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../components/cookie-consent-banner/cookie-consent-banner.css">
 </head>
 <body>
 <div class="page__1">
@@ -113,5 +114,12 @@
   </div>
 </div>
 <script src="../js/main.js" defer></script>
+<script src="../components/cookie-consent-banner/cookie-consent-banner.js"></script>
+<script>
+  EchoCookieConsent.init({
+    variant: 'bar',
+    learnMoreHref: null
+  });
+</script>
 </body>
 </html>
