@@ -1,4 +1,4 @@
-*{box-sizing:border-box}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{margin:0;background:#FAF6F0;color:#2E2A26;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:#B0332B;text-decoration:none}
