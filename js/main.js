@@ -186,11 +186,17 @@
         if (c.dataset.tierCard !== 'standard') c.style.borderColor = on ? 'rgba(176,51,43,.45)' : 'rgba(46,42,38,.12)';
       });
       document.querySelectorAll('[data-cell]').forEach(function (c) {
-        c.style.opacity = c.dataset.cell === tier ? '1' : '.32';
+        var on = c.dataset.cell === tier;
+        c.style.opacity = on ? '1' : '.32';
+        c.style.display = (tierMobile && !on) ? 'none' : '';
       });
       document.querySelectorAll('[data-col-head]').forEach(function (h) {
-        h.style.color = h.dataset.colHead === tier ? '#2E2A26' : '#8B8073';
+        var on = h.dataset.colHead === tier;
+        h.style.color = on ? '#2E2A26' : '#8B8073';
+        h.style.display = (tierMobile && !on) ? 'none' : '';
       });
+      var viewingAsTier = document.querySelector('[data-viewing-as-tier]');
+      if (viewingAsTier) viewingAsTier.textContent = tier.charAt(0).toUpperCase() + tier.slice(1);
       document.querySelectorAll('[data-rush]').forEach(function (r) {
         var on = r.dataset.rush === tier;
         r.style.borderColor = on ? 'rgba(176,51,43,.45)' : 'rgba(46,42,38,.12)';

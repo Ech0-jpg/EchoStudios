@@ -1882,6 +1882,15 @@ input,textarea,button{font-family:inherit}
   color:#4A7856;
   transition:opacity .3s ease;
 }
+.quote__42 {
+  display:none;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10.5px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#8B8073;
+  margin:0 0 10px;
+}
 .quote__28 {
   opacity:0;
   transform:translateY(16px);
@@ -2167,6 +2176,12 @@ img { max-width:100%; }
   .nav__4 { padding:12px 13px; font-size:10.5px; }
   .nav__5 { padding:12px 14px; font-size:10.5px; }
   .nav__6 { padding:12px 13px; font-size:10.5px; }
+}
+
+@media (max-width:720px) {
+  .quote__42 { display:block; }
+  .quote__20 { min-width:0; }
+  .quote__21, .quote__24 { grid-template-columns:minmax(0,1.6fr) minmax(0,1fr); }
 }
 
 @media (max-width:699px) {
