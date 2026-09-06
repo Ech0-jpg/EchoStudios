@@ -177,7 +177,7 @@
         }
         thumbState = { left: active.offsetLeft, w: active.offsetWidth };
       }
-      var tierMobile = window.innerWidth <= 720;
+      var tierMobile = window.innerWidth < 720;
       document.querySelectorAll('[data-tier-card]').forEach(function (c) {
         var on = c.dataset.tierCard === tier;
         c.style.display = (tierMobile && !on) ? 'none' : '';
@@ -195,8 +195,10 @@
         h.style.color = on ? '#2E2A26' : '#8B8073';
         h.style.display = (tierMobile && !on) ? 'none' : '';
       });
-      var viewingAsTier = document.querySelector('[data-viewing-as-tier]');
-      if (viewingAsTier) viewingAsTier.textContent = tier.charAt(0).toUpperCase() + tier.slice(1);
+      if (tierMobile) {
+        var viewingAsTier = document.querySelector('[data-viewing-as-tier]');
+        if (viewingAsTier) viewingAsTier.textContent = tier.charAt(0).toUpperCase() + tier.slice(1);
+      }
       document.querySelectorAll('[data-rush]').forEach(function (r) {
         var on = r.dataset.rush === tier;
         r.style.borderColor = on ? 'rgba(176,51,43,.45)' : 'rgba(46,42,38,.12)';

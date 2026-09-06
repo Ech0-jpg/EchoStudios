@@ -2178,7 +2178,7 @@ img { max-width:100%; }
   .nav__6 { padding:12px 13px; font-size:10.5px; }
 }
 
-@media (max-width:720px) {
+@media (max-width:719px) {
   .quote__42 { display:block; }
   .quote__20 { min-width:0; }
   .quote__21, .quote__24 { grid-template-columns:minmax(0,1.6fr) minmax(0,1fr); }
