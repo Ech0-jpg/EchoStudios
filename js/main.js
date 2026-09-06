@@ -177,8 +177,10 @@
         }
         thumbState = { left: active.offsetLeft, w: active.offsetWidth };
       }
+      var tierMobile = window.innerWidth <= 720;
       document.querySelectorAll('[data-tier-card]').forEach(function (c) {
         var on = c.dataset.tierCard === tier;
+        c.style.display = (tierMobile && !on) ? 'none' : '';
         c.style.opacity = c.dataset.shown ? (on ? '1' : '.58') : c.style.opacity;
         c.style.boxShadow = on ? '0 28px 52px -28px rgba(46,42,38,.5)' : 'none';
         if (c.dataset.tierCard !== 'standard') c.style.borderColor = on ? 'rgba(176,51,43,.45)' : 'rgba(46,42,38,.12)';
