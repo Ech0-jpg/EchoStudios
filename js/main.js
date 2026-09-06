@@ -244,6 +244,25 @@
     });
   }
 
+  // ---------- nav active-section tracking (the "hover oval" for touch/no-hover) ----------
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav__4[href^="#"]'));
+  var navSections = navLinks.map(function (a) {
+    return document.getElementById(a.getAttribute('href').slice(1));
+  });
+
+  function updateActiveNav() {
+    if (!navLinks.length) return;
+    var ref = window.scrollY + window.innerHeight * 0.35;
+    var current = null;
+    for (var i = 0; i < navSections.length; i++) {
+      var s = navSections[i];
+      if (s && s.offsetTop <= ref) current = navLinks[i];
+    }
+    navLinks.forEach(function (a) {
+      a.classList.toggle('is-active', a === current);
+    });
+  }
+
   // ---------- scroll handling: reveal catch-up, floating dock, hero parallax ----------
   function onScroll() {
     document.querySelectorAll('[data-reveal]:not([data-shown])').forEach(function (n) {
@@ -267,6 +286,7 @@
       heroEl.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0)';
     }
     processUpdate();
+    updateActiveNav();
   }
 
   function onScrollThrottled() {
@@ -495,6 +515,7 @@
 
   layout();
   processUpdate();
+  updateActiveNav();
 
   setTimeout(function () {
     document.querySelectorAll('[data-reveal]').forEach(function (n) {
